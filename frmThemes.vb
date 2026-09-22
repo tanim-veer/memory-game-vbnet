@@ -4,13 +4,13 @@ Public Class frmThemes
 
     Private Sub btnCinema_Click(sender As Object, e As EventArgs) Handles btnCinema.Click
         themeSelectionne = "Cinema"
-        PictureBox1.Image = Image.FromFile("Images\Cine.jpg")
+        PictureBox1.Image = Image.FromFile(IO.Path.Combine(Application.StartupPath, "Images\Cine.jpg"))
         PictureBox1.SizeMode = PictureBoxSizeMode.StretchImage
     End Sub
 
     Private Sub btnFastFood_Click(sender As Object, e As EventArgs) Handles btnOptions.Click
         themeSelectionne = "FastFood"
-        PictureBox1.Image = Image.FromFile("Images2\Fast.jpg")
+        PictureBox1.Image = Image.FromFile(IO.Path.Combine(Application.StartupPath, "Images2\Fast.jpg"))
         PictureBox1.SizeMode = PictureBoxSizeMode.StretchImage
     End Sub
 
@@ -46,8 +46,7 @@ Public Class frmThemes
 
         Me.BackgroundImage = Image.FromFile(cheminImage)
         Me.BackgroundImageLayout = ImageLayout.Stretch
-        Task.Delay(2000)
-        AxWindowsMediaPlayer1.URL = "music\song.mp3"
+        AxWindowsMediaPlayer1.URL = IO.Path.Combine(Application.StartupPath, "music\song.mp3")
         AxWindowsMediaPlayer1.settings.setMode("loop", False)
         AxWindowsMediaPlayer1.Ctlcontrols.play()
     End Sub

@@ -1,5 +1,4 @@
-﻿Imports System.Media
-Imports AxWMPLib
+﻿Imports AxWMPLib
 Public Class frmAccueil
     Public Structure Score
         Public Prenom As String
@@ -51,17 +50,12 @@ Public Class frmAccueil
         Me.BackgroundImageLayout = ImageLayout.Stretch
 
         btnJouer.Enabled = False
-    End Sub
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        AxWindowsMediaPlayer1.URL = "music\coral.mp3"
+
+        AxWindowsMediaPlayer1.URL = IO.Path.Combine(Application.StartupPath, "music\coral.mp3")
         AxWindowsMediaPlayer1.settings.setMode("loop", True)
         AxWindowsMediaPlayer1.Ctlcontrols.play()
     End Sub
     Private Sub tbNom_TextChanged(sender As Object, e As EventArgs) Handles tbNom.TextChanged
         btnJouer.Enabled = (tbNom.Text.Length >= 3)
-    End Sub
-
-    Private Sub btnJouer_Click(sender As Object, e As EventArgs) Handles btnJouer.Click
-        frmThemes.Show()
     End Sub
 End Class

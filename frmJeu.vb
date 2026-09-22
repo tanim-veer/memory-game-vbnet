@@ -1,5 +1,4 @@
-﻿Imports System.Media
-Imports AxWMPLib
+﻿Imports AxWMPLib
 Public Class frmJeu
     Private tempsRestant As Integer
     Public DureeChoisie As Integer = 60
@@ -16,7 +15,6 @@ Public Class frmJeu
     Private boutonsIndice As New List(Of PictureBox)()
     Public ThemeSelectionne As String
     Private liensImages As New List(Of String)
-    Dim tempsUtilise As Integer = DureeChoisie
 
     Private Sub frmJeu_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         tempsRestant = DureeChoisie
@@ -24,12 +22,12 @@ Public Class frmJeu
 
         If ThemeSelectionne = "Cinema" Then
             liensImages = New List(Of String) From {
-                "Images\buster.jpg", "Images\star.jpg", "Images\Marvel.jpg", "Images\DC.jpg", "Images\WB.jpg"
-            }
+                "buster.jpg", "star.jpg", "Marvel.jpg", "DC.jpg", "WB.jpg"
+            }.Select(Function(f) IO.Path.Combine(Application.StartupPath, "Images", f)).ToList()
         ElseIf ThemeSelectionne = "FastFood" Then
             liensImages = New List(Of String) From {
-                "Images2\bk.jpg", "Images2\domi.jpg", "Images2\hut.jpg", "Images2\pepe.jpg", "Images2\kfc.jpg"
-            }
+                "bk.jpg", "domi.jpg", "hut.jpg", "pepe.jpg", "kfc.jpg"
+            }.Select(Function(f) IO.Path.Combine(Application.StartupPath, "Images2", f)).ToList()
         Else
             MessageBox.Show("Erreur : Aucun thème choisi", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error)
             Me.Close()
@@ -60,11 +58,15 @@ Public Class frmJeu
             Dim index As Integer = aleatoire.Next(valeurs.Count)
             cartesDevoilees.Add(pictureBox, valeurs(index))
             valeurs.RemoveAt(index)
-            pictureBox.BackgroundImage = Image.FromFile("Images\Cer.jpg")
+            pictureBox.BackgroundImage = Image.FromFile(IO.Path.Combine(Application.StartupPath, "Images\Cer.jpg"))
             pictureBox.BackgroundImageLayout = ImageLayout.Stretch
             pictureBox.Image = Nothing
             AddHandler pictureBox.Click, AddressOf Clic_Carte
         Next
+
+        AxWindowsMediaPlayer1.URL = IO.Path.Combine(Application.StartupPath, "music\disco.mp3")
+        AxWindowsMediaPlayer1.settings.setMode("loop", True)
+        AxWindowsMediaPlayer1.Ctlcontrols.play()
     End Sub
 
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
@@ -163,6 +165,7 @@ Public Class frmJeu
             btnPause.Text = "Reprendre"
             estActif = False
             Timer1.Stop()
+            AxWindowsMediaPlayer1.Ctlcontrols.pause()
             For Each pictureBox In cartesDevoilees.Keys
                 pictureBox.Enabled = False
             Next
@@ -170,6 +173,7 @@ Public Class frmJeu
             btnPause.Text = "Pause"
             estActif = True
             Timer1.Start()
+            AxWindowsMediaPlayer1.Ctlcontrols.play()
             For Each pictureBox In cartesDevoilees.Keys
                 If pictureBox.Image Is Nothing Then
                     pictureBox.Enabled = True
@@ -241,23 +245,6 @@ Public Class frmJeu
         End If
     End Sub
 
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        AxWindowsMediaPlayer1.URL = "music\disco.mp3"
-        AxWindowsMediaPlayer1.settings.setMode("loop", True)
-        AxWindowsMediaPlayer1.Ctlcontrols.play()
-    End Sub
-
-    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles btnPause.Click
-        Dim playerState = AxWindowsMediaPlayer1.playState
-
-        If playerState = WMPLib.WMPPlayState.wmppsPlaying Then
-            AxWindowsMediaPlayer1.Ctlcontrols.pause()
-            btnPause.Text = "Reprendre"
-        ElseIf playerState = WMPLib.WMPPlayState.wmppsPaused OrElse playerState = WMPLib.WMPPlayState.wmppsStopped Then
-            AxWindowsMediaPlayer1.Ctlcontrols.play()
-            btnPause.Text = "Pause"
-        End If
-    End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         nbPairesTrouvees = 0
         indicesUtilises = 0
@@ -289,7 +276,7 @@ Public Class frmJeu
             cartesDevoilees.Add(pictureBox, valeurs(index))
             valeurs.RemoveAt(index)
 
-            pictureBox.BackgroundImage = Image.FromFile("Images\Cer.jpg")
+            pictureBox.BackgroundImage = Image.FromFile(IO.Path.Combine(Application.StartupPath, "Images\Cer.jpg"))
             pictureBox.BackgroundImageLayout = ImageLayout.Stretch
             pictureBox.Image = Nothing
             pictureBox.Enabled = True
