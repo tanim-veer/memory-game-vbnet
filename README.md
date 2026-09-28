@@ -11,6 +11,12 @@ Thème « Cinéma » (logos DC, Ghostbusters, Warner Bros, Marvel, Star Wars), a
 
 ![Le jeu en cours, thème Cinéma](docs/screenshot-jeu-cinema.png)
 
+Le parcours d'une partie : saisie du prénom sur l'accueil, choix du thème et de la durée, puis la grille de 20 cartes avec le chronomètre (ici deux cartes retournées) :
+
+| Accueil | Choix du thème | Partie en cours |
+|---|---|---|
+| ![Écran d'accueil](docs/accueil.png) | ![Choix du thème et de la durée](docs/choix-theme.png) | ![Partie en cours, deux cartes retournées](docs/partie-en-cours.png) |
+
 Le rapport de projet complet (contexte, difficultés rencontrées, tests) est disponible dans [`docs/rapport-projet.docx`](docs/rapport-projet.docx).
 
 ---
